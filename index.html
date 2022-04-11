@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <title>Document</title>
+
+    <style>
+
+html{
+        -webkit-print-color-adjust: exact;
+    }
+
+input[type=number]::-webkit-inner-spin-button { 
+    -webkit-appearance: none;
+    
+}
+input[type=number] { 
+   -moz-appearance: textfield;
+   appearance: textfield;
+
+}
+
+
+    </style>
+
+</head>
+
+<body>
+    
+    <div class="info" style="display: flex; align-items: center; justify-content: center; text-align: center; flex-direction: column;">
+        <h1> Cálculo de Correção Monetária </h1>
+        
+        <span><strong>Valor Corrigido = Valor Orginal * (Valor do indexador na Data Cálculo / Valor do Indexador na Data Base)<br/><br/></strong></span>
+    </div>
+    
+    
+   
+    <form class="form" style="margin: 15px auto 10px auto; display: flex; align-items: center; justify-content: space-evenly; " action="" >
+        
+        <div style="display: flex; flex-direction: column; align-items: center" class="camopo-form">
+            <label style="font-family: sans-serif; font-weight: 600; font-size: 13px;" >VALOR ORIGINAL</label>
+            <input style="font-size: 15px; font-weight: 600; color: black;  padding-left: 10px; outline:none; height: 30px; background-color: lightskyblue; offset: none; border:none; border-radius: 7px; margin: 5px 10px;" id = "VO" type = "number" />
+        </div>
+
+        <div style="display: flex; flex-direction: column; align-items: center" class="camopo-form">
+            <label style="font-family: sans-serif; font-weight: 600; font-size: 13px;" >VALOR INDEXADO NA BASE</label>
+            <input style="font-size: 15px; font-weight: 600; color: black;  padding-left: 10px; outline:none; height: 30px; background-color: lightskyblue; offset: none; border:none; border-radius: 7px; margin: 5px 10px;" id = "IndexCalc" type = "number" />
+        </div>
+
+        <div style="display: flex; flex-direction: column; align-items: center;" class="camopo-form">
+            <label style="font-family: sans-serif; font-weight: 600; font-size: 13px;" >VALOR INDEXADO NA BASE</label>
+            <input style="font-size: 15px; font-weight: 600; color: black;  padding-left: 10px; outline:none; height: 30px; background-color: lightskyblue; offset: none; border:none; border-radius: 7px; margin: 5px 10px;" id = "IndexBase" type = "number" />
+        </div>
+        
+
+    </form>
+
+    
+    <div style="margin: 30px auto 10px auto; text-align: center;"> 
+        <button style="width: 400px; height: 40px; background-color: sandybrown; color: white; border: none; border-radius: 15px; font-size: 18px; font-family: sans-serif; font-weight: bolder; cursor: pointer;" onclick="correção()">Calcular</button> 
+    </div>
+    
+    
+    <div style="margin:15px auto 10px auto; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        
+        <h2 style="margin-right: 10px; text-align: center; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;" >Valor Corrigido é: <resultado> </resultado> </h2>   
+
+    </div>
+    
+    
+ 
+
+<div id="wraping" style="margin:10px auto 10px auto; display: flex; align-items: center; justify-content: center;">
+
+    <div style="margin-right: 10px; text-align: center;">
+        <p style="font-size: 20px; font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; font-weight: bold;" >Demosntrativo de cálculo:</p> 
+    </div>
+
+    <div class="info_calc">
+
+    <math >
+    
+        <mrow displaystype="true">
+               
+            <mtext style="font-size:22px" class="dadosCalculo">Valor Original</mtext>
+            <mo lspace="10px" >   x   </mo>  
+
+            <mfrac displaystype="true">
+                <mtext style="font-size:22px" class="valorOriginal">Valor Indexador Calculo</mtext>
+                <mtext style="font-size:22px" class="baseDados">Valor Indexador Base de Dados</mtext>
+            </mfrac>     
+        
+        </mrow>
+
+    </math>      
+
+    </div>
+    
+    
+    <div class="div-dem" style=" display: none; margin-top:20px; margin-bottom:10px;  margin-left: 10px; font-size:25px; " >
+    
+
+
+     <math>   
+
+            <mrow displaystype="true">
+               
+                <mi class="dadosCalculo"></mi>
+                <mo lspace="10px" >   x   </mo>  
+
+                <mfrac displaystype="true">
+                    <mi class="valorOriginal"> </mi>
+                    <mi class="baseDados"> </mi>
+                </mfrac>     
+            
+            </mrow>
+            
+    </math>
+
+    </div>
+    
+    </div>
+
+
+    <div  style="width: 100%; display: flex; align-items: center; justify-content: end; margin: 10px auto 10px auto; " class="btn-print">
+
+    <img id="img-print" style="margin-right: 20px; margin-top:5px; cursor: pointer;" src="./impress.png" alt="impresora" onclick="imprimir()">
+
+    </div>
+
+</body>
+
+
+<script>
+        
+    const wraping = document.getElementById("wraping");
+
+    
+    
+
+    function correção () {
+
+    //definições das variáveis:
+    var valorO = document.querySelector('#VO');
+    
+    
+    var index_calculo = document.querySelector('#IndexCalc');
+    
+    
+    //console.log(typeof(index_calculo));
+
+    var index_base = document.querySelector('#IndexBase');
+    
+    
+    var resultado = document.querySelector('resultado'); 
+
+    
+
+    //manipulação dos valores
+    valorO = parseFloat(valorO.value);
+    index_calculo = parseFloat(index_calculo.value);
+    index_base = parseFloat(index_base.value);
+
+    //console.log(valorO + index_base + index_calculo);
+    //console.log(typeof(valorO));
+     
+    //Alteração na
+      resultado.innerHTML= (parseFloat(valorO) * (parseFloat(index_calculo) / parseFloat(index_base)));
+        if(document.getElementsByClassName("info_calc")[0] !="null" && document.getElementsByClassName("info_calc")[0] != "" && document.getElementsByClassName("info_calc")[0] != undefined){
+            wraping.removeChild(document.getElementsByClassName("info_calc")[0]);
+        }
+        
+        // document.getElementsByClassName("info_calc")[0].style.display = "none";
+        document.getElementsByClassName("div-dem")[0].style.display = "flex";
+        
+        document.getElementsByClassName("dadosCalculo")[0].innerHTML = index_calculo;
+        document.getElementsByClassName("baseDados")[0].innerHTML = index_base;
+        document.getElementsByClassName("valorOriginal")[0].innerHTML = valorO;
+        document.getElementsByClassName("dadosCalculo")[0].style.fontSize = "25px";
+        document.getElementsByClassName("baseDados")[0].style.fontSize = "25px";
+        document.getElementsByClassName("valorOriginal")[0].style.fontSize = "25px";
+        
+    }
+
+    function imprimir(){
+    document.getElementById("img-print").style.display = "none";
+      
+      setTimeout( ()=>{
+        window.print();
+       },1000 );
+
+       setTimeout( ()=>{
+        document.getElementById("img-print").style.display = "initial";
+       },1000 );
+      
+    }
+
+    
+
+</script>
+
+</html>
